@@ -5,13 +5,14 @@
 <h1 align="center">Ace Reports</h1>
 
 <p align="center">
-  <b>See why every .NET test failed, in one HTML file.</b><br>
-  Install one NuGet package and every <code>dotnet test</code> run writes a report with the logs,
-  API calls, screenshots and retries behind each result.
+  <b>See why every test failed, in one HTML file.</b><br>
+  For .NET and Python. Install one package and every test run writes a report that
+  <b>automatically</b> captures the API calls, screenshots, logs and retries behind each result.
 </p>
 
 <p align="center">
   <a href="https://www.nuget.org/packages/AceReports.Xunit"><img src="https://img.shields.io/nuget/v/AceReports.Xunit?label=NuGet&color=1cb684" alt="NuGet version"></a>
+  <a href="https://pypi.org/project/pytest-acereports/"><img src="https://img.shields.io/pypi/v/pytest-acereports?label=PyPI&color=1cb684" alt="PyPI version"></a>
   <a href="https://harshadlambate.github.io/AceReportsWebsite/"><img src="https://img.shields.io/badge/website-Ace%20Reports-1b1e2b" alt="Website"></a>
   <a href="https://harshadlambate.github.io/AceReportsWebsite/demo.html"><img src="https://img.shields.io/badge/live%20demo-open%20report-f7a013" alt="Live demo report"></a>
 </p>
@@ -26,22 +27,25 @@
 
 ## Features
 
-- **Zero setup:** install the package and run `dotnet test`. No attributes, base classes or config files.
-- **Every API call captured:** method, URL, request and response bodies, status and duration for every
-  `HttpClient` request. `Authorization` and cookie headers are redacted automatically.
+- **Zero setup:** install the package and run your tests as usual. No attributes, base classes or config files.
+- **Every API call, automatically:** method, URL, request and response bodies, status and duration for
+  every `HttpClient` call in .NET, and every `requests` / `httpx` call in Python.
+  `Authorization` and cookie headers are redacted.
 - **Screenshots on failure:** taken automatically from Playwright, Selenium or Puppeteer, plus your own
   named screenshots at any step.
 - **Retries and flaky tests:** every attempt keeps its own logs, API calls, error and screenshots. A test
   that passes after failing is marked **flaky**.
-- **Step-by-step logs:** `Ace.Info`, `Ace.Pass`, `Ace.Fail` and `Ace.Debug` from anywhere in a test.
-  Reqnroll Given/When/Then steps are logged for you.
+- **Step-by-step logs:** `Ace.Info(...)` in C#, `ace.info(...)` in Python. Gherkin steps from Reqnroll
+  and pytest-bdd are logged for you.
 - **Search, filters and categories:** filter by status or category, search by name or argument, and click
   a chart bar to narrow the table.
 - **One file, no server:** styles, data and screenshots in a single HTML file. Email it, attach it to a
   ticket, or publish it as a CI artifact.
-- **Light, dark or system theme.**
+- **Same report in every language**, in light, dark or system theme.
 
 ## Install
+
+### .NET (NuGet), requires .NET 10
 
 | Framework | Package | Install |
 | --- | --- | --- |
@@ -50,18 +54,21 @@
 | MSTest (3.10+ and 4) | [AceReports.MSTest](https://www.nuget.org/packages/AceReports.MSTest) | `dotnet add package AceReports.MSTest` |
 | Reqnroll 3 (any runner) | [AceReports.Reqnroll](https://www.nuget.org/packages/AceReports.Reqnroll) | `dotnet add package AceReports.Reqnroll` |
 
-Requires **.NET 10**.
+### Python (PyPI), requires Python 3.9+ and pytest 7+
+
+| Framework | Package | Install |
+| --- | --- | --- |
+| pytest (and pytest-bdd) | [pytest-acereports](https://pypi.org/project/pytest-acereports/) | `pip install pytest-acereports` |
 
 ## Quick start
 
 1. Add the package for your framework to your test project.
-2. Run your tests: `dotnet test`
-3. Open the report: `TestResults/AceReport_<timestamp>.html`, next to your test binaries. The path is
-   also printed at the end of the run.
+2. Run your tests: `dotnet test` or `pytest`.
+3. Open the report: `TestResults/AceReport_<timestamp>.html`. The path is also printed at the end of the run.
 
 ## Configure (optional)
 
-Add this class anywhere in your test project. Ace Reports finds it by itself:
+**.NET:** add this class anywhere in your test project. Ace Reports finds it by itself:
 
 ```csharp
 using AceReports;
@@ -78,19 +85,38 @@ internal sealed class AceReportsStartup : IAceReportsStartup
 }
 ```
 
+**Python:** add this hook to a `conftest.py` (or use `acereports_*` settings in `pytest.ini`):
+
+```python
+from acereports import ace
+
+def pytest_acereports_configure(options):
+    ace.suite_name("Checkout Regression")
+    ace.environment_name("UAT")
+    ace.dark_theme()
+```
+
 ## Write to the report from a test
 
 ```csharp
 Ace.Info("Submitting payment");
 Ace.Pass("Payment authorized");
 Ace.TakeScreenshot("After login");
-
-// Page or driver created inside the test? Hand it over once:
-Ace.UseScreenshotSource(page);   // Playwright IPage, Selenium IWebDriver, ...
+Ace.UseScreenshotSource(page);   // a page or driver created inside the test
 ```
 
-To turn reporting off for an xUnit, NUnit or MSTest project, add
-`<EnableAceReports>false</EnableAceReports>` to its `.csproj`.
+```python
+from acereports import ace
+
+ace.info("Submitting payment")
+ace.pass_("Payment authorized")
+ace.take_screenshot("After login")
+ace.use_screenshot_source(page)  # only for a page created inside the test
+```
+
+**Turning it off:** in .NET, add `<EnableAceReports>false</EnableAceReports>` to the `.csproj`
+(xUnit, NUnit, MSTest). In Python, set `acereports = false` in `pytest.ini`, or run
+`pytest --no-acereports`.
 
 ## ☕ Support Ace Reports
 
@@ -101,7 +127,7 @@ support, fixes and features, and helps keep the core packages free.
 
 ## Feedback and contact
 
-- Found a bug or have an idea? [Open an issue](https://github.com/HarshadLambate/AceReportsWebsite/issues).
+- Found a bug, or want Ace Reports for another language? [Open an issue](https://github.com/HarshadLambate/AceReportsWebsite/issues).
 - Commercial licensing (OEM, white-label, redistribution) or anything else: lambate02@gmail.com
 
 ## License

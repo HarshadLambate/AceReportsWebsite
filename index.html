@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ace Reports: HTML test reports for .NET</title>
-<meta name="description" content="Install one NuGet package and every dotnet test run produces a single HTML report with logs, API calls, screenshots, retries and flaky-test detection. For xUnit v3, NUnit, MSTest and Reqnroll.">
-<meta property="og:title" content="Ace Reports: HTML test reports for .NET">
-<meta property="og:description" content="One NuGet package. One HTML file per run. Logs, API calls, screenshots, retries and flaky tests for xUnit, NUnit, MSTest and Reqnroll.">
+<title>Ace Reports: HTML test reports for .NET and Python</title>
+<meta name="description" content="Install one package and every test run produces a single HTML report that automatically captures API calls, screenshots, logs, retries and flaky tests. For .NET (xUnit, NUnit, MSTest, Reqnroll) and Python (pytest, pytest-bdd).">
+<meta property="og:title" content="Ace Reports: HTML test reports for .NET and Python">
+<meta property="og:description" content="One package. One HTML file per run. API calls, screenshots, logs, retries and flaky tests, captured automatically. For xUnit, NUnit, MSTest, Reqnroll, pytest and pytest-bdd.">
 <meta property="og:image" content="https://harshadlambate.github.io/AceReportsWebsite/img/share-1200x630.png">
 <meta property="og:url" content="https://harshadlambate.github.io/AceReportsWebsite/">
 <meta property="og:type" content="website">
@@ -138,6 +138,14 @@ section{padding:96px 0}
 .demo-caption{text-align:center;color:var(--muted);font-size:15px;margin:18px 0 0}
 @media (max-width:700px){.window iframe{height:600px}.demo{padding:0 12px}}
 
+/* language switch: .net / .py blocks follow body[data-lang] */
+body[data-lang="python"] .net, body:not([data-lang="python"]) .py{display:none!important}
+.lang-switch{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--surface);border:1px solid var(--line);margin-top:28px}
+.lang-switch button{font:600 14px/1 var(--sans);padding:9px 16px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.lang-switch button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.lang-switch button:hover:not([aria-pressed="true"]){color:var(--ink)}
+.req + .req{margin-top:6px}
+
 /* features */
 .features-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:64px;align-items:start}
 @media (max-width:900px){.features-grid{grid-template-columns:minmax(0,1fr);gap:32px}}
@@ -232,7 +240,7 @@ footer a:hover{color:var(--ink)}
       <a href="#pro">Pro</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn-nav" href="https://www.nuget.org/packages?q=AceReports">Get it on NuGet</a>
+    <a class="btn btn-nav" href="#get-started">Get started</a>
   </div>
 </header>
 
@@ -240,17 +248,18 @@ footer a:hover{color:var(--ink)}
 
 <section class="hero">
   <div class="wrap hero-copy">
-    <a class="release" href="https://www.nuget.org/packages/AceReports.Xunit"><i></i>Version 1.0.1 is on NuGet</a>
-    <h1>See why every .NET test failed, <span class="tri">in one HTML file.</span></h1>
-    <p class="lede">Install one NuGet package and every <code>dotnet test</code> run writes a report with the logs, API calls, screenshots and retries behind each result.</p>
+    <a class="release" href="https://pypi.org/project/pytest-acereports/"><i></i>New: Ace Reports for Python and pytest</a>
+    <h1>See why every test failed, <span class="tri">in one HTML file.</span></h1>
+    <p class="lede">For .NET and Python. Install one package and every test run writes a report that automatically captures the API calls, screenshots, logs and retries behind each result.</p>
 
     <div class="quick">
       <div class="install">
         <div class="tabs" role="tablist" aria-label="Test framework">
-          <button class="tab" role="tab" aria-selected="true" data-pkg="AceReports.Xunit">xUnit v3</button>
-          <button class="tab" role="tab" aria-selected="false" data-pkg="AceReports.NUnit">NUnit</button>
-          <button class="tab" role="tab" aria-selected="false" data-pkg="AceReports.MSTest">MSTest</button>
-          <button class="tab" role="tab" aria-selected="false" data-pkg="AceReports.Reqnroll">Reqnroll</button>
+          <button class="tab" role="tab" aria-selected="true" data-lang="dotnet" data-cmd="dotnet add package AceReports.Xunit">xUnit v3</button>
+          <button class="tab" role="tab" aria-selected="false" data-lang="dotnet" data-cmd="dotnet add package AceReports.NUnit">NUnit</button>
+          <button class="tab" role="tab" aria-selected="false" data-lang="dotnet" data-cmd="dotnet add package AceReports.MSTest">MSTest</button>
+          <button class="tab" role="tab" aria-selected="false" data-lang="dotnet" data-cmd="dotnet add package AceReports.Reqnroll">Reqnroll</button>
+          <button class="tab" role="tab" aria-selected="false" data-lang="python" data-cmd="pip install pytest-acereports">pytest</button>
         </div>
         <div class="cmd" role="tabpanel">
           <span class="prompt" aria-hidden="true">&gt;</span>
@@ -288,15 +297,15 @@ footer a:hover{color:var(--ink)}
     <ul class="feature-list">
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span>
-        <div><h3>Install and run</h3><p>The package wires itself into the build. Run <code>dotnet test</code> and the report appears in <code>TestResults</code>, next to your test binaries.</p></div>
+        <div><h3>Install and run</h3><p>The package hooks itself into your test framework. Run <code>dotnet test</code> or <code>pytest</code> as usual and the report appears in a <code>TestResults</code> folder.</p></div>
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h10"/><path d="M4 17h7"/><path d="m16 15 3 3-3 3"/></svg></span>
-        <div><h3>Every API call</h3><p>Each <code>HttpClient</code> request is captured with method, URL, bodies, status and duration. <code>Authorization</code> and cookie headers are redacted automatically.</p></div>
+        <div><h3>Every API call, automatically</h3><p>No code needed: every request made with <code>HttpClient</code> in .NET, or <code>requests</code> and <code>httpx</code> in Python, is captured with method, URL, bodies, status and duration. <code>Authorization</code> and cookie headers are redacted.</p></div>
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/></svg></span>
-        <div><h3>Screenshots when a test fails</h3><p>Taken automatically from Playwright, Selenium or Puppeteer. Add your own named screenshots at any step with <code>Ace.TakeScreenshot("After login")</code>.</p></div>
+        <div><h3>Screenshots when a test fails</h3><p>Taken automatically from Playwright, Selenium or Puppeteer. Add your own named screenshots at any step with <code>Ace.TakeScreenshot("After login")</code> or <code>ace.take_screenshot("After login")</code>.</p></div>
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg></span>
@@ -304,7 +313,7 @@ footer a:hover{color:var(--ink)}
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M5 6h14"/><path d="M5 12h14"/><path d="M5 18h9"/></svg></span>
-        <div><h3>Step-by-step logs</h3><p>Write <code>Ace.Info</code>, <code>Ace.Pass</code>, <code>Ace.Fail</code> or <code>Ace.Debug</code> from anywhere in a test. Each line lands on the test that's running. Reqnroll steps are logged for you.</p></div>
+        <div><h3>Step-by-step logs</h3><p>Write <code>Ace.Info(...)</code> in C# or <code>ace.info(...)</code> in Python from anywhere in a test, and each line lands on the test that's running. Gherkin steps from Reqnroll and pytest-bdd are logged for you.</p></div>
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg></span>
@@ -316,7 +325,7 @@ footer a:hover{color:var(--ink)}
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg></span>
-        <div><h3>Light, dark or system theme</h3><p>Pick a default with <code>Ace.DarkTheme()</code>, and anyone reading the report can switch.</p></div>
+        <div><h3>Same report, every language</h3><p>.NET and Python teams get the identical report, so mixed stacks read results one way. Light, dark or system theme, and anyone reading it can switch.</p></div>
       </li>
     </ul>
   </div>
@@ -325,17 +334,25 @@ footer a:hover{color:var(--ink)}
 <section id="get-started">
   <div class="wrap">
     <h2>Your first report in three steps</h2>
-    <p class="lede">Ace Reports needs .NET 10. These steps use xUnit; swap the package name for your framework.</p>
+    <p class="lede net">Ace Reports needs .NET 10. These steps use xUnit; swap the package name for your framework.</p>
+    <p class="lede py">Ace Reports needs Python 3.9+ and pytest 7+. pytest-bdd scenarios are covered by the same package.</p>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-set-lang="dotnet" aria-pressed="true">.NET</button>
+      <button type="button" data-set-lang="python" aria-pressed="false">Python</button>
+    </div>
     <ol class="steps">
       <li>
         <h3>Add the package</h3>
         <p>In your test project:</p>
-        <div class="cmd"><code id="s1">dotnet add package AceReports.Xunit</code><button class="copy" data-copy="#s1" aria-label="Copy command">Copy</button></div>
+        <div class="cmd net"><code id="s1">dotnet add package AceReports.Xunit</code><button class="copy" data-copy="#s1" aria-label="Copy command">Copy</button></div>
+        <div class="cmd py"><code id="s1p">pip install pytest-acereports</code><button class="copy" data-copy="#s1p" aria-label="Copy command">Copy</button></div>
       </li>
       <li>
         <h3>Run your tests</h3>
-        <p>From Visual Studio, Rider, or the command line:</p>
-        <div class="cmd"><code id="s2">dotnet test</code><button class="copy" data-copy="#s2" aria-label="Copy command">Copy</button></div>
+        <p class="net">From Visual Studio, Rider, or the command line:</p>
+        <p class="py">From PyCharm, VS Code, or the command line:</p>
+        <div class="cmd net"><code id="s2">dotnet test</code><button class="copy" data-copy="#s2" aria-label="Copy command">Copy</button></div>
+        <div class="cmd py"><code id="s2p">pytest</code><button class="copy" data-copy="#s2p" aria-label="Copy command">Copy</button></div>
       </li>
       <li>
         <h3>Open the report</h3>
@@ -344,7 +361,7 @@ footer a:hover{color:var(--ink)}
       </li>
     </ol>
 
-    <div class="code-grid">
+    <div class="code-grid net">
       <figure>
         <figcaption>Configure it, if you want to<span>Add this class anywhere in the test project. Ace Reports finds it on its own.</span></figcaption>
 <pre class="code"><span class="k">using</span> AceReports;
@@ -376,6 +393,38 @@ footer a:hover{color:var(--ink)}
 <span class="c">// &lt;EnableAceReports&gt;false&lt;/EnableAceReports&gt;</span></pre>
       </figure>
     </div>
+
+    <div class="code-grid py">
+      <figure>
+        <figcaption>Configure it, if you want to<span>Add this hook to a conftest.py. Ace Reports calls it before the first test runs.</span></figcaption>
+<pre class="code"><span class="c"># conftest.py</span>
+<span class="k">from</span> acereports <span class="k">import</span> ace
+
+
+<span class="k">def</span> <span class="m">pytest_acereports_configure</span>(options):
+    ace.<span class="m">suite_name</span>(<span class="s">"Checkout Regression"</span>)
+    ace.<span class="m">environment_name</span>(<span class="s">"UAT"</span>)
+    ace.<span class="m">dark_theme</span>()
+
+<span class="c"># Or in pytest.ini:</span>
+<span class="c"># acereports_suite_name = Checkout Regression</span></pre>
+      </figure>
+      <figure>
+        <figcaption>Write to the report from a test<span>Every call attaches to the test that's currently running.</span></figcaption>
+<pre class="code"><span class="k">from</span> acereports <span class="k">import</span> ace
+
+ace.<span class="m">info</span>(<span class="s">"Submitting payment"</span>)
+ace.<span class="m">pass_</span>(<span class="s">"Payment authorized"</span>)
+
+<span class="c"># Screenshots: automatic on failure (pytest-playwright's page</span>
+<span class="c"># is found by itself), or whenever you like</span>
+ace.<span class="m">take_screenshot</span>(<span class="s">"After login"</span>)
+
+<span class="c"># Retries (pytest-rerunfailures):</span>
+<span class="c">#   @pytest.mark.flaky(reruns=3)</span>
+<span class="c"># Turn reporting off for one run:  pytest --no-acereports</span></pre>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -391,9 +440,12 @@ footer a:hover{color:var(--ink)}
           <tr><td>NUnit 3.14+ and 4</td><td><a href="https://www.nuget.org/packages/AceReports.NUnit">AceReports.NUnit</a></td><td><code>[Test]</code> and <code>[TestCase]</code> values, <code>[Category]</code> tags, and every <code>[Retry]</code> attempt.</td></tr>
           <tr><td>MSTest 3.10+ and 4</td><td><a href="https://www.nuget.org/packages/AceReports.MSTest">AceReports.MSTest</a></td><td><code>[TestMethod]</code> and <code>[DataRow]</code> values, <code>[TestCategory]</code> tags, and every <code>[Retry]</code> attempt.</td></tr>
           <tr><td>Reqnroll 3</td><td><a href="https://www.nuget.org/packages/AceReports.Reqnroll">AceReports.Reqnroll</a></td><td>Scenarios, features, tags and example rows, with each Given/When/Then step as a log line. Runs on any Reqnroll runner.</td></tr>
+          <tr><td>pytest 7+</td><td><a href="https://pypi.org/project/pytest-acereports/">pytest-acereports</a></td><td>Test functions and classes, <code>@pytest.mark.parametrize</code> values, markers as category tags, and every pytest-rerunfailures retry. Works with pytest-xdist.</td></tr>
+          <tr><td>pytest-bdd</td><td><a href="https://pypi.org/project/pytest-acereports/">pytest-acereports</a></td><td>Scenarios, features, tags and example rows, with each Given/When/Then step as a log line. The same package as pytest; nothing extra to install.</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="req">Requirements: .NET 10 for the NuGet packages; Python 3.9+ and pytest 7+ for <code>pytest-acereports</code>.</p>
     <p class="req">Using Reqnroll alongside plain tests? Install <code>AceReports.Reqnroll</code> together with your runner's package. Scenarios get their steps and tags, and nothing is reported twice.</p>
   </div>
 </section>
@@ -419,7 +471,7 @@ footer a:hover{color:var(--ink)}
     <div class="faq">
       <details>
         <summary>Is Ace Reports free?</summary>
-        <p>Yes, for any use, including commercial use inside your company. It's free to use under the PolyForm Perimeter License <a href="https://polyformproject.org/licenses/perimeter/1.0.1">PolyForm Perimeter License 1.0.1</a>. The one thing it doesn't allow is building a product that competes with Ace Reports.</p>
+        <p>Yes, for any use, including commercial use inside your company. It's free to use under the <a href="https://polyformproject.org/licenses/perimeter/1.0.1">PolyForm Perimeter License 1.0.1</a>. The one thing it doesn't allow is building a product that competes with Ace Reports.</p>
       </details>
       <details>
         <summary>Do I need a server or a separate tool to view the report?</summary>
@@ -427,15 +479,19 @@ footer a:hover{color:var(--ink)}
       </details>
       <details>
         <summary>Does it work in CI pipelines?</summary>
-        <p>Yes. The report is written to <code>TestResults</code> like any other test output, so you can publish it as an artifact in GitHub Actions, Azure DevOps, GitLab or Jenkins. Set the environment name with <code>ACEREPORTS_ENVIRONMENT</code> or <code>dotnet test -p:AceReportsEnvironment=QA</code>.</p>
+        <p>Yes. The report is written to <code>TestResults</code> like any other test output, so you can publish it as an artifact in GitHub Actions, Azure DevOps, GitLab or Jenkins. Set the environment name with the <code>ACEREPORTS_ENVIRONMENT</code> variable in either language, or with <code>dotnet test -p:AceReportsEnvironment=QA</code> in .NET.</p>
       </details>
       <details>
         <summary>Will my passwords or tokens end up in the report?</summary>
-        <p><code>Authorization</code>, <code>Cookie</code> and <code>Set-Cookie</code> headers are always redacted. Request and response bodies are recorded as sent, so treat the report like a log file. You can turn API capture off with <code>Ace.CaptureHttpTraffic(false)</code>.</p>
+        <p><code>Authorization</code>, <code>Cookie</code> and <code>Set-Cookie</code> headers are always redacted. Request and response bodies are recorded as sent, so treat the report like a log file. You can turn API capture off with <code>Ace.CaptureHttpTraffic(false)</code> in .NET or <code>ace.capture_http_traffic(False)</code> in Python.</p>
       </details>
       <details>
         <summary>Can I turn it off for one project?</summary>
-        <p>Add <code>&lt;EnableAceReports&gt;false&lt;/EnableAceReports&gt;</code> to that project's <code>.csproj</code>. The package stays installed and your tests run as normal.</p>
+        <p>In .NET, add <code>&lt;EnableAceReports&gt;false&lt;/EnableAceReports&gt;</code> to that project's <code>.csproj</code>. In Python, set <code>acereports = false</code> in <code>pytest.ini</code>, or run <code>pytest --no-acereports</code> for a single run. The package stays installed and your tests run as normal.</p>
+      </details>
+      <details>
+        <summary>Which languages and test frameworks are supported?</summary>
+        <p>.NET: xUnit v3, NUnit, MSTest and Reqnroll, from NuGet. Python: pytest and pytest-bdd, from PyPI. Every one produces the same report. More languages are being considered; tell us which one you need by <a href="https://github.com/HarshadLambate/AceReportsWebsite/issues">opening an issue</a>.</p>
       </details>
       <details>
         <summary>Can I use it in a product I sell, or under my own brand?</summary>
@@ -466,6 +522,7 @@ footer a:hover{color:var(--ink)}
     <span>© 2026 Harshad Lambate</span>
     <nav aria-label="Footer">
       <a href="https://www.nuget.org/packages?q=AceReports">NuGet</a>
+      <a href="https://pypi.org/project/pytest-acereports/">PyPI</a>
       <a href="demo.html">Demo report</a>
       <a href="https://polyformproject.org/licenses/perimeter/1.0.1">License</a>
       <a href="https://buymeacoffee.com/lambate05p" target="_blank" rel="noopener">Support</a>
@@ -475,13 +532,22 @@ footer a:hover{color:var(--ink)}
 </footer>
 
 <script>
-// Framework tabs swap the install command.
+// Language: .NET or Python. Elements marked .net / .py follow it; remembered per visitor.
+function setLang(lang) {
+  document.body.dataset.lang = lang;
+  document.querySelectorAll('[data-set-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setLang === lang ? 'true' : 'false'));
+  try { localStorage.setItem('ace-lang', lang); } catch {}
+}
+document.querySelectorAll('[data-set-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.setLang)));
+
+// Framework tabs swap the install command (and the language of the examples below).
 const tabs = document.querySelectorAll('.tab');
 const cmd = document.getElementById('install-cmd');
-tabs.forEach(tab => tab.addEventListener('click', () => {
+function selectTab(tab) {
   tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
-  cmd.textContent = 'dotnet add package ' + tab.dataset.pkg;
-}));
+  cmd.textContent = tab.dataset.cmd;
+}
+tabs.forEach(tab => tab.addEventListener('click', () => { selectTab(tab); setLang(tab.dataset.lang); }));
 document.querySelector('[role=tablist]').addEventListener('keydown', e => {
   if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
   const list = [...tabs], i = list.indexOf(document.activeElement);
@@ -489,6 +555,10 @@ document.querySelector('[role=tablist]').addEventListener('keydown', e => {
   const next = list[(i + (e.key === 'ArrowRight' ? 1 : list.length - 1)) % list.length];
   next.focus(); next.click();
 });
+let saved = null;
+try { saved = localStorage.getItem('ace-lang'); } catch {}
+if (saved === 'python') { selectTab([...tabs].find(t => t.dataset.lang === 'python')); setLang('python'); }
+else { setLang('dotnet'); }
 
 // Copy buttons.
 document.querySelectorAll('.copy').forEach(btn => btn.addEventListener('click', async () => {
