@@ -6,12 +6,13 @@
 
 <p align="center">
   <b>See why every test failed, in one HTML file.</b><br>
-  For .NET and Python. Install one package and every test run writes a report that
+  For .NET, Java and Python. Install one package and every test run writes a report that
   <b>automatically</b> captures the API calls, screenshots, logs and retries behind each result.
 </p>
 
 <p align="center">
   <a href="https://www.nuget.org/packages/AceReports.Xunit"><img src="https://img.shields.io/nuget/v/AceReports.Xunit?label=NuGet&color=1cb684" alt="NuGet version"></a>
+  <a href="https://central.sonatype.com/artifact/io.github.acereports/acereports-junit5"><img src="https://img.shields.io/maven-central/v/io.github.acereports/acereports-junit5?label=Maven%20Central&color=1cb684" alt="Maven Central version"></a>
   <a href="https://pypi.org/project/pytest-acereports/"><img src="https://img.shields.io/pypi/v/pytest-acereports?label=PyPI&color=1cb684" alt="PyPI version"></a>
   <a href="https://harshadlambate.github.io/AceReportsWebsite/"><img src="https://img.shields.io/badge/website-Ace%20Reports-1b1e2b" alt="Website"></a>
   <a href="https://harshadlambate.github.io/AceReportsWebsite/demo.html"><img src="https://img.shields.io/badge/live%20demo-open%20report-f7a013" alt="Live demo report"></a>
@@ -29,14 +30,15 @@
 
 - **Zero setup:** install the package and run your tests as usual. No attributes, base classes or config files.
 - **Every API call, automatically:** method, URL, request and response bodies, status and duration for
-  every `HttpClient` call in .NET, and every `requests` / `httpx` call in Python.
+  every `HttpClient` call in .NET, every REST Assured and `HttpClient` call in Java, and every
+  `requests` / `httpx` call in Python.
   `Authorization` and cookie headers are redacted.
 - **Screenshots on failure:** taken automatically from Playwright, Selenium or Puppeteer, plus your own
   named screenshots at any step.
 - **Retries and flaky tests:** every attempt keeps its own logs, API calls, error and screenshots. A test
   that passes after failing is marked **flaky**.
-- **Step-by-step logs:** `Ace.Info(...)` in C#, `ace.info(...)` in Python. Gherkin steps from Reqnroll
-  and pytest-bdd are logged for you.
+- **Step-by-step logs:** `Ace.Info(...)` in C#, `Ace.info(...)` in Java, `ace.info(...)` in Python.
+  Gherkin steps from Reqnroll, Cucumber and pytest-bdd are logged for you.
 - **Search, filters and categories:** filter by status or category, search by name or argument, and click
   a chart bar to narrow the table.
 - **One file, no server:** styles, data and screenshots in a single HTML file. Email it, attach it to a
@@ -54,6 +56,23 @@
 | MSTest (3.10+ and 4) | [AceReports.MSTest](https://www.nuget.org/packages/AceReports.MSTest) | `dotnet add package AceReports.MSTest` |
 | Reqnroll 3 (any runner) | [AceReports.Reqnroll](https://www.nuget.org/packages/AceReports.Reqnroll) | `dotnet add package AceReports.Reqnroll` |
 
+### Java (Maven Central), requires Java 11+
+
+| Framework | Artifact (`io.github.acereports`, test scope) |
+| --- | --- |
+| JUnit 5 (5.8+) | [acereports-junit5](https://central.sonatype.com/artifact/io.github.acereports/acereports-junit5) |
+| TestNG (7.5+) | [acereports-testng](https://central.sonatype.com/artifact/io.github.acereports/acereports-testng) |
+| Cucumber 7 (JUnit 5 or TestNG runner) | [acereports-cucumber](https://central.sonatype.com/artifact/io.github.acereports/acereports-cucumber) |
+
+```xml
+<dependency>
+    <groupId>io.github.acereports</groupId>
+    <artifactId>acereports-junit5</artifactId>  <!-- or acereports-testng / acereports-cucumber -->
+    <version>1.1.0</version>
+    <scope>test</scope>
+</dependency>
+```
+
 ### Python (PyPI), requires Python 3.9+ and pytest 7+
 
 | Framework | Package | Install |
@@ -63,7 +82,7 @@
 ## Quick start
 
 1. Add the package for your framework to your test project.
-2. Run your tests: `dotnet test` or `pytest`.
+2. Run your tests: `dotnet test`, `mvn test` (or `gradle test`) or `pytest`.
 3. Open the report: `TestResults/AceReport_<timestamp>.html`. The path is also printed at the end of the run.
 
 ## Configure (optional)
@@ -83,6 +102,14 @@ internal sealed class AceReportsStartup : IAceReportsStartup
         Ace.DarkTheme();
     }
 }
+```
+
+**Java:** add `src/test/resources/acereports.properties` (the same keys work as `-D` system properties):
+
+```properties
+acereports.suite.name=Checkout Regression
+acereports.environment=UAT
+acereports.theme=dark
 ```
 
 **Python:** add this hook to a `conftest.py` (or use `acereports_*` settings in `pytest.ini`):
@@ -105,6 +132,15 @@ Ace.TakeScreenshot("After login");
 Ace.UseScreenshotSource(page);   // a page or driver created inside the test
 ```
 
+```java
+import io.github.acereports.Ace;
+
+Ace.info("Submitting payment");
+Ace.pass("Payment authorized");
+Ace.takeScreenshot("After login");
+Ace.useScreenshotSource(page);   // only for a page or driver Ace Reports can't find by itself
+```
+
 ```python
 from acereports import ace
 
@@ -115,7 +151,8 @@ ace.use_screenshot_source(page)  # only for a page created inside the test
 ```
 
 **Turning it off:** in .NET, add `<EnableAceReports>false</EnableAceReports>` to the `.csproj`
-(xUnit, NUnit, MSTest). In Python, set `acereports = false` in `pytest.ini`, or run
+(xUnit, NUnit, MSTest). In Java, run `mvn test -Dacereports.enabled=false`, or set
+`acereports.enabled=false` in `acereports.properties`. In Python, set `acereports = false` in `pytest.ini`, or run
 `pytest --no-acereports`.
 
 ## ☕ Support Ace Reports

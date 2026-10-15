@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ace Reports: HTML test reports for .NET and Python</title>
-<meta name="description" content="Install one package and every test run produces a single HTML report that automatically captures API calls, screenshots, logs, retries and flaky tests. For .NET (xUnit, NUnit, MSTest, Reqnroll) and Python (pytest, pytest-bdd).">
-<meta property="og:title" content="Ace Reports: HTML test reports for .NET and Python">
-<meta property="og:description" content="One package. One HTML file per run. API calls, screenshots, logs, retries and flaky tests, captured automatically. For xUnit, NUnit, MSTest, Reqnroll, pytest and pytest-bdd.">
+<title>Ace Reports: HTML test reports for .NET, Java and Python</title>
+<meta name="description" content="Install one package and every test run produces a single HTML report that automatically captures API calls, screenshots, logs, retries and flaky tests. For .NET (xUnit, NUnit, MSTest, Reqnroll), Java (JUnit 5, TestNG, Cucumber) and Python (pytest, pytest-bdd).">
+<meta property="og:title" content="Ace Reports: HTML test reports for .NET, Java and Python">
+<meta property="og:description" content="One package. One HTML file per run. API calls, screenshots, logs, retries and flaky tests, captured automatically. For xUnit, NUnit, MSTest, Reqnroll, JUnit 5, TestNG, Cucumber, pytest and pytest-bdd.">
 <meta property="og:image" content="https://harshadlambate.github.io/AceReportsWebsite/img/share-1200x630.png">
 <meta property="og:url" content="https://harshadlambate.github.io/AceReportsWebsite/">
 <meta property="og:type" content="website">
@@ -138,8 +138,9 @@ section{padding:96px 0}
 .demo-caption{text-align:center;color:var(--muted);font-size:15px;margin:18px 0 0}
 @media (max-width:700px){.window iframe{height:600px}.demo{padding:0 12px}}
 
-/* language switch: .net / .py blocks follow body[data-lang] */
-body[data-lang="python"] .net, body:not([data-lang="python"]) .py{display:none!important}
+/* language switch: .net / .java / .py blocks follow body[data-lang] */
+body[data-lang="python"] .net, body[data-lang="java"] .net,
+body:not([data-lang="python"]) .py, body:not([data-lang="java"]) .java, body[data-lang="java"] .notjava{display:none!important}
 .lang-switch{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--surface);border:1px solid var(--line);margin-top:28px}
 .lang-switch button{font:600 14px/1 var(--sans);padding:9px 16px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer}
 .lang-switch button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
@@ -248,9 +249,9 @@ footer a:hover{color:var(--ink)}
 
 <section class="hero">
   <div class="wrap hero-copy">
-    <a class="release" href="https://pypi.org/project/pytest-acereports/"><i></i>New: Ace Reports for Python and pytest</a>
+    <a class="release" href="https://central.sonatype.com/namespace/io.github.acereports"><i></i>New: Ace Reports for Java: JUnit 5, TestNG and Cucumber</a>
     <h1>See why every test failed, <span class="tri">in one HTML file.</span></h1>
-    <p class="lede">For .NET and Python. Install one package and every test run writes a report that automatically captures the API calls, screenshots, logs and retries behind each result.</p>
+    <p class="lede">For .NET, Java and Python. Install one package and every test run writes a report that automatically captures the API calls, screenshots, logs and retries behind each result.</p>
 
     <div class="quick">
       <div class="install">
@@ -259,6 +260,9 @@ footer a:hover{color:var(--ink)}
           <button class="tab" role="tab" aria-selected="false" data-lang="dotnet" data-cmd="dotnet add package AceReports.NUnit">NUnit</button>
           <button class="tab" role="tab" aria-selected="false" data-lang="dotnet" data-cmd="dotnet add package AceReports.MSTest">MSTest</button>
           <button class="tab" role="tab" aria-selected="false" data-lang="dotnet" data-cmd="dotnet add package AceReports.Reqnroll">Reqnroll</button>
+          <button class="tab" role="tab" aria-selected="false" data-lang="java" data-cmd="io.github.acereports:acereports-junit5:1.1.0">JUnit 5</button>
+          <button class="tab" role="tab" aria-selected="false" data-lang="java" data-cmd="io.github.acereports:acereports-testng:1.1.0">TestNG</button>
+          <button class="tab" role="tab" aria-selected="false" data-lang="java" data-cmd="io.github.acereports:acereports-cucumber:1.1.0">Cucumber</button>
           <button class="tab" role="tab" aria-selected="false" data-lang="python" data-cmd="pip install pytest-acereports">pytest</button>
         </div>
         <div class="cmd" role="tabpanel">
@@ -297,11 +301,11 @@ footer a:hover{color:var(--ink)}
     <ul class="feature-list">
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span>
-        <div><h3>Install and run</h3><p>The package hooks itself into your test framework. Run <code>dotnet test</code> or <code>pytest</code> as usual and the report appears in a <code>TestResults</code> folder.</p></div>
+        <div><h3>Install and run</h3><p>The package hooks itself into your test framework. Run <code>dotnet test</code>, <code>mvn test</code> or <code>pytest</code> as usual and the report appears in a <code>TestResults</code> folder.</p></div>
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h10"/><path d="M4 17h7"/><path d="m16 15 3 3-3 3"/></svg></span>
-        <div><h3>Every API call, automatically</h3><p>No code needed: every request made with <code>HttpClient</code> in .NET, or <code>requests</code> and <code>httpx</code> in Python, is captured with method, URL, bodies, status and duration. <code>Authorization</code> and cookie headers are redacted.</p></div>
+        <div><h3>Every API call, automatically</h3><p>No code needed: every request made with <code>HttpClient</code> in .NET, REST Assured or <code>HttpClient</code> in Java, or <code>requests</code> and <code>httpx</code> in Python, is captured with method, URL, bodies, status and duration. <code>Authorization</code> and cookie headers are redacted.</p></div>
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/></svg></span>
@@ -313,7 +317,7 @@ footer a:hover{color:var(--ink)}
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M5 6h14"/><path d="M5 12h14"/><path d="M5 18h9"/></svg></span>
-        <div><h3>Step-by-step logs</h3><p>Write <code>Ace.Info(...)</code> in C# or <code>ace.info(...)</code> in Python from anywhere in a test, and each line lands on the test that's running. Gherkin steps from Reqnroll and pytest-bdd are logged for you.</p></div>
+        <div><h3>Step-by-step logs</h3><p>Write <code>Ace.Info(...)</code> in C#, <code>Ace.info(...)</code> in Java or <code>ace.info(...)</code> in Python from anywhere in a test, and each line lands on the test that's running. Gherkin steps from Reqnroll, Cucumber and pytest-bdd are logged for you.</p></div>
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg></span>
@@ -325,7 +329,7 @@ footer a:hover{color:var(--ink)}
       </li>
       <li>
         <span class="ficon"><svg viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg></span>
-        <div><h3>Same report, every language</h3><p>.NET and Python teams get the identical report, so mixed stacks read results one way. Light, dark or system theme, and anyone reading it can switch.</p></div>
+        <div><h3>Same report, every language</h3><p>.NET, Java and Python teams get the identical report, so mixed stacks read results one way. Light, dark or system theme, and anyone reading it can switch.</p></div>
       </li>
     </ul>
   </div>
@@ -335,23 +339,29 @@ footer a:hover{color:var(--ink)}
   <div class="wrap">
     <h2>Your first report in three steps</h2>
     <p class="lede net">Ace Reports needs .NET 10. These steps use xUnit; swap the package name for your framework.</p>
+    <p class="lede java">Ace Reports needs Java 11+. These steps use JUnit 5; use <code>acereports-testng</code> or <code>acereports-cucumber</code> for those frameworks.</p>
     <p class="lede py">Ace Reports needs Python 3.9+ and pytest 7+. pytest-bdd scenarios are covered by the same package.</p>
     <div class="lang-switch" role="group" aria-label="Language">
       <button type="button" data-set-lang="dotnet" aria-pressed="true">.NET</button>
+      <button type="button" data-set-lang="java" aria-pressed="false">Java</button>
       <button type="button" data-set-lang="python" aria-pressed="false">Python</button>
     </div>
     <ol class="steps">
       <li>
         <h3>Add the package</h3>
-        <p>In your test project:</p>
+        <p class="notjava">In your test project:</p>
+        <p class="java">A test dependency in <code>pom.xml</code> (snippet below) or <code>build.gradle</code>:</p>
         <div class="cmd net"><code id="s1">dotnet add package AceReports.Xunit</code><button class="copy" data-copy="#s1" aria-label="Copy command">Copy</button></div>
+        <div class="cmd java"><code id="s1j">io.github.acereports:acereports-junit5:1.1.0</code><button class="copy" data-copy="#s1j" aria-label="Copy coordinates">Copy</button></div>
         <div class="cmd py"><code id="s1p">pip install pytest-acereports</code><button class="copy" data-copy="#s1p" aria-label="Copy command">Copy</button></div>
       </li>
       <li>
         <h3>Run your tests</h3>
         <p class="net">From Visual Studio, Rider, or the command line:</p>
+        <p class="java">From IntelliJ IDEA, Eclipse, VS Code, or the command line:</p>
         <p class="py">From PyCharm, VS Code, or the command line:</p>
         <div class="cmd net"><code id="s2">dotnet test</code><button class="copy" data-copy="#s2" aria-label="Copy command">Copy</button></div>
+        <div class="cmd java"><code id="s2j">mvn test</code><button class="copy" data-copy="#s2j" aria-label="Copy command">Copy</button></div>
         <div class="cmd py"><code id="s2p">pytest</code><button class="copy" data-copy="#s2p" aria-label="Copy command">Copy</button></div>
       </li>
       <li>
@@ -391,6 +401,40 @@ footer a:hover{color:var(--ink)}
 
 <span class="c">// Turn reporting off for a project (.csproj):</span>
 <span class="c">// &lt;EnableAceReports&gt;false&lt;/EnableAceReports&gt;</span></pre>
+      </figure>
+    </div>
+
+    <div class="code-grid java">
+      <figure>
+        <figcaption>Add the dependency<span>JUnit 5 shown. TestNG: <code>acereports-testng</code>. Cucumber, with the JUnit 5 or TestNG runner: <code>acereports-cucumber</code>.</span></figcaption>
+<pre class="code"><span class="c">&lt;!-- pom.xml --&gt;</span>
+&lt;<span class="t">dependency</span>&gt;
+    &lt;<span class="t">groupId</span>&gt;io.github.acereports&lt;/<span class="t">groupId</span>&gt;
+    &lt;<span class="t">artifactId</span>&gt;<span class="s">acereports-junit5</span>&lt;/<span class="t">artifactId</span>&gt;
+    &lt;<span class="t">version</span>&gt;1.1.0&lt;/<span class="t">version</span>&gt;
+    &lt;<span class="t">scope</span>&gt;test&lt;/<span class="t">scope</span>&gt;
+&lt;/<span class="t">dependency</span>&gt;
+
+<span class="c"># Configure it, if you want to:</span>
+<span class="c"># src/test/resources/acereports.properties</span>
+acereports.suite.name=<span class="s">Checkout Regression</span>
+acereports.environment=<span class="s">UAT</span>
+acereports.theme=<span class="s">dark</span></pre>
+      </figure>
+      <figure>
+        <figcaption>Write to the report from a test<span>Every call attaches to the test that's currently running.</span></figcaption>
+<pre class="code"><span class="k">import</span> io.github.acereports.<span class="t">Ace</span>;
+
+<span class="t">Ace</span>.<span class="m">info</span>(<span class="s">"Submitting payment"</span>);
+<span class="t">Ace</span>.<span class="m">pass</span>(<span class="s">"Payment authorized"</span>);
+
+<span class="c">// Screenshots: automatic on failure (a Playwright page or</span>
+<span class="c">// Selenium driver in a field is found by itself)</span>
+<span class="t">Ace</span>.<span class="m">takeScreenshot</span>(<span class="s">"After login"</span>);
+
+<span class="c">// Retries: @RetryingTest (JUnit), IRetryAnalyzer (TestNG)</span>
+<span class="c">// Turn reporting off for one run:</span>
+<span class="c">//   mvn test -Dacereports.enabled=false</span></pre>
       </figure>
     </div>
 
@@ -440,13 +484,17 @@ ace.<span class="m">take_screenshot</span>(<span class="s">"After login"</span>)
           <tr><td>NUnit 3.14+ and 4</td><td><a href="https://www.nuget.org/packages/AceReports.NUnit">AceReports.NUnit</a></td><td><code>[Test]</code> and <code>[TestCase]</code> values, <code>[Category]</code> tags, and every <code>[Retry]</code> attempt.</td></tr>
           <tr><td>MSTest 3.10+ and 4</td><td><a href="https://www.nuget.org/packages/AceReports.MSTest">AceReports.MSTest</a></td><td><code>[TestMethod]</code> and <code>[DataRow]</code> values, <code>[TestCategory]</code> tags, and every <code>[Retry]</code> attempt.</td></tr>
           <tr><td>Reqnroll 3</td><td><a href="https://www.nuget.org/packages/AceReports.Reqnroll">AceReports.Reqnroll</a></td><td>Scenarios, features, tags and example rows, with each Given/When/Then step as a log line. Runs on any Reqnroll runner.</td></tr>
+          <tr><td>JUnit 5</td><td><a href="https://central.sonatype.com/artifact/io.github.acereports/acereports-junit5">acereports-junit5</a></td><td>Tests, <code>@ParameterizedTest</code> values, <code>@Tag</code> categories, <code>@Nested</code> classes, and every JUnit Pioneer <code>@RetryingTest</code> or Surefire rerun attempt.</td></tr>
+          <tr><td>TestNG 7.5+</td><td><a href="https://central.sonatype.com/artifact/io.github.acereports/acereports-testng">acereports-testng</a></td><td>Tests, <code>@DataProvider</code> rows, groups as category tags, and every <code>IRetryAnalyzer</code> retry. Works with parallel runs.</td></tr>
+          <tr><td>Cucumber 7</td><td><a href="https://central.sonatype.com/artifact/io.github.acereports/acereports-cucumber">acereports-cucumber</a></td><td>Scenarios, features, tags and example rows, with each Given/When/Then step as a log line. Works with the JUnit 5 and the TestNG runner.</td></tr>
           <tr><td>pytest 7+</td><td><a href="https://pypi.org/project/pytest-acereports/">pytest-acereports</a></td><td>Test functions and classes, <code>@pytest.mark.parametrize</code> values, markers as category tags, and every pytest-rerunfailures retry. Works with pytest-xdist.</td></tr>
           <tr><td>pytest-bdd</td><td><a href="https://pypi.org/project/pytest-acereports/">pytest-acereports</a></td><td>Scenarios, features, tags and example rows, with each Given/When/Then step as a log line. The same package as pytest; nothing extra to install.</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="req">Requirements: .NET 10 for the NuGet packages; Python 3.9+ and pytest 7+ for <code>pytest-acereports</code>.</p>
+    <p class="req">Requirements: .NET 10 for the NuGet packages; Java 11+ for the Maven Central packages; Python 3.9+ and pytest 7+ for <code>pytest-acereports</code>.</p>
     <p class="req">Using Reqnroll alongside plain tests? Install <code>AceReports.Reqnroll</code> together with your runner's package. Scenarios get their steps and tags, and nothing is reported twice.</p>
+    <p class="req">Cucumber next to plain JUnit 5 or TestNG tests? Add <code>acereports-cucumber</code> together with <code>acereports-junit5</code> or <code>acereports-testng</code>. The same goes: steps and tags for the scenarios, nothing twice.</p>
   </div>
 </section>
 
@@ -479,19 +527,19 @@ ace.<span class="m">take_screenshot</span>(<span class="s">"After login"</span>)
       </details>
       <details>
         <summary>Does it work in CI pipelines?</summary>
-        <p>Yes. The report is written to <code>TestResults</code> like any other test output, so you can publish it as an artifact in GitHub Actions, Azure DevOps, GitLab or Jenkins. Set the environment name with the <code>ACEREPORTS_ENVIRONMENT</code> variable in either language, or with <code>dotnet test -p:AceReportsEnvironment=QA</code> in .NET.</p>
+        <p>Yes. The report is written to <code>TestResults</code> like any other test output, so you can publish it as an artifact in GitHub Actions, Azure DevOps, GitLab or Jenkins. Set the environment name with the <code>ACEREPORTS_ENVIRONMENT</code> variable in any language, with <code>dotnet test -p:AceReportsEnvironment=QA</code> in .NET, or with <code>mvn test -Dacereports.environment=QA</code> in Java.</p>
       </details>
       <details>
         <summary>Will my passwords or tokens end up in the report?</summary>
-        <p><code>Authorization</code>, <code>Cookie</code> and <code>Set-Cookie</code> headers are always redacted. Request and response bodies are recorded as sent, so treat the report like a log file. You can turn API capture off with <code>Ace.CaptureHttpTraffic(false)</code> in .NET or <code>ace.capture_http_traffic(False)</code> in Python.</p>
+        <p><code>Authorization</code>, <code>Cookie</code> and <code>Set-Cookie</code> headers are always redacted. Request and response bodies are recorded as sent, so treat the report like a log file. You can turn API capture off with <code>Ace.CaptureHttpTraffic(false)</code> in .NET, <code>Ace.captureHttpTraffic(false)</code> in Java or <code>ace.capture_http_traffic(False)</code> in Python.</p>
       </details>
       <details>
         <summary>Can I turn it off for one project?</summary>
-        <p>In .NET, add <code>&lt;EnableAceReports&gt;false&lt;/EnableAceReports&gt;</code> to that project's <code>.csproj</code>. In Python, set <code>acereports = false</code> in <code>pytest.ini</code>, or run <code>pytest --no-acereports</code> for a single run. The package stays installed and your tests run as normal.</p>
+        <p>In .NET, add <code>&lt;EnableAceReports&gt;false&lt;/EnableAceReports&gt;</code> to that project's <code>.csproj</code>. In Java, set <code>acereports.enabled=false</code> in <code>acereports.properties</code>, or run <code>mvn test -Dacereports.enabled=false</code>. In Python, set <code>acereports = false</code> in <code>pytest.ini</code>, or run <code>pytest --no-acereports</code> for a single run. The package stays installed and your tests run as normal.</p>
       </details>
       <details>
         <summary>Which languages and test frameworks are supported?</summary>
-        <p>.NET: xUnit v3, NUnit, MSTest and Reqnroll, from NuGet. Python: pytest and pytest-bdd, from PyPI. Every one produces the same report. More languages are being considered; tell us which one you need by <a href="https://github.com/HarshadLambate/AceReportsWebsite/issues">opening an issue</a>.</p>
+        <p>.NET: xUnit v3, NUnit, MSTest and Reqnroll, from NuGet. Java: JUnit 5, TestNG and Cucumber, from Maven Central. Python: pytest and pytest-bdd, from PyPI. Every one produces the same report. More languages are being considered; tell us which one you need by <a href="https://github.com/HarshadLambate/AceReportsWebsite/issues">opening an issue</a>.</p>
       </details>
       <details>
         <summary>Can I use it in a product I sell, or under my own brand?</summary>
@@ -522,6 +570,7 @@ ace.<span class="m">take_screenshot</span>(<span class="s">"After login"</span>)
     <span>© 2026 Harshad Lambate</span>
     <nav aria-label="Footer">
       <a href="https://www.nuget.org/packages?q=AceReports">NuGet</a>
+      <a href="https://central.sonatype.com/namespace/io.github.acereports">Maven Central</a>
       <a href="https://pypi.org/project/pytest-acereports/">PyPI</a>
       <a href="demo.html">Demo report</a>
       <a href="https://polyformproject.org/licenses/perimeter/1.0.1">License</a>
@@ -532,7 +581,7 @@ ace.<span class="m">take_screenshot</span>(<span class="s">"After login"</span>)
 </footer>
 
 <script>
-// Language: .NET or Python. Elements marked .net / .py follow it; remembered per visitor.
+// Language: .NET, Java or Python. Elements marked .net / .java / .py follow it; remembered per visitor.
 function setLang(lang) {
   document.body.dataset.lang = lang;
   document.querySelectorAll('[data-set-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setLang === lang ? 'true' : 'false'));
@@ -557,7 +606,7 @@ document.querySelector('[role=tablist]').addEventListener('keydown', e => {
 });
 let saved = null;
 try { saved = localStorage.getItem('ace-lang'); } catch {}
-if (saved === 'python') { selectTab([...tabs].find(t => t.dataset.lang === 'python')); setLang('python'); }
+if (saved === 'python' || saved === 'java') { selectTab([...tabs].find(t => t.dataset.lang === saved)); setLang(saved); }
 else { setLang('dotnet'); }
 
 // Copy buttons.
