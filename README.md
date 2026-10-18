@@ -5,15 +5,16 @@
 <h1 align="center">Ace Reports</h1>
 
 <p align="center">
-  <b>See why every test failed, in one HTML file.</b><br>
-  For .NET, Java and Python. Install one package and every test run writes a report that
-  <b>automatically</b> captures the API calls, screenshots, logs and retries behind each result.
+  <b>Every test failure. Every retry. All the evidence in one HTML report.</b><br>
+  <b>Automatically</b> capture API requests and responses, screenshots, logs, retries and flaky-test history,
+  with minimal setup and no manual reporting calls. For .NET, Java, Python and TypeScript.
 </p>
 
 <p align="center">
   <a href="https://www.nuget.org/packages/AceReports.Xunit"><img src="https://img.shields.io/nuget/v/AceReports.Xunit?label=NuGet&color=1cb684" alt="NuGet version"></a>
   <a href="https://central.sonatype.com/artifact/io.github.acereports/acereports-junit5"><img src="https://img.shields.io/maven-central/v/io.github.acereports/acereports-junit5?label=Maven%20Central&color=1cb684" alt="Maven Central version"></a>
   <a href="https://pypi.org/project/pytest-acereports/"><img src="https://img.shields.io/pypi/v/pytest-acereports?label=PyPI&color=1cb684" alt="PyPI version"></a>
+  <a href="https://www.npmjs.com/package/@acereports/playwright"><img src="https://img.shields.io/npm/v/@acereports/playwright?label=npm&color=1cb684" alt="npm version"></a>
   <a href="https://harshadlambate.github.io/AceReportsWebsite/"><img src="https://img.shields.io/badge/website-Ace%20Reports-1b1e2b" alt="Website"></a>
   <a href="https://harshadlambate.github.io/AceReportsWebsite/demo.html"><img src="https://img.shields.io/badge/live%20demo-open%20report-f7a013" alt="Live demo report"></a>
 </p>
@@ -30,15 +31,15 @@
 
 - **Zero setup:** install the package and run your tests as usual. No attributes, base classes or config files.
 - **Every API call, automatically:** method, URL, request and response bodies, status and duration for
-  every `HttpClient` call in .NET, every REST Assured and `HttpClient` call in Java, and every
-  `requests` / `httpx` call in Python.
+  every `HttpClient` call in .NET, every REST Assured and `HttpClient` call in Java, every
+  `requests` / `httpx` call in Python, and every axios / `fetch` / Playwright `request` call in TypeScript.
   `Authorization` and cookie headers are redacted.
 - **Screenshots on failure:** taken automatically from Playwright, Selenium or Puppeteer, plus your own
   named screenshots at any step.
 - **Retries and flaky tests:** every attempt keeps its own logs, API calls, error and screenshots. A test
   that passes after failing is marked **flaky**.
-- **Step-by-step logs:** `Ace.Info(...)` in C#, `Ace.info(...)` in Java, `ace.info(...)` in Python.
-  Gherkin steps from Reqnroll, Cucumber and pytest-bdd are logged for you.
+- **Step-by-step logs:** `Ace.Info(...)` in C#, `Ace.info(...)` in Java, `ace.info(...)` in Python and TypeScript.
+  Gherkin steps from Reqnroll, Cucumber, pytest-bdd and Cucumber.js are logged for you.
 - **Search, filters and categories:** filter by status or category, search by name or argument, and click
   a chart bar to narrow the table.
 - **One file, no server:** styles, data and screenshots in a single HTML file. Email it, attach it to a
@@ -79,10 +80,37 @@
 | --- | --- | --- |
 | pytest (and pytest-bdd) | [pytest-acereports](https://pypi.org/project/pytest-acereports/) | `pip install pytest-acereports` |
 
+### TypeScript / JavaScript (npm), requires Node.js 18+
+
+| Framework | Package | Install |
+| --- | --- | --- |
+| Playwright Test (1.40+) | [@acereports/playwright](https://www.npmjs.com/package/@acereports/playwright) | `npm install --save-dev @acereports/playwright` |
+| Jest (29+) | [@acereports/jest](https://www.npmjs.com/package/@acereports/jest) | `npm install --save-dev @acereports/jest` |
+| Vitest (3+) | [@acereports/vitest](https://www.npmjs.com/package/@acereports/vitest) | `npm install --save-dev @acereports/vitest` |
+| Cucumber.js (10+) | [@acereports/cucumber](https://www.npmjs.com/package/@acereports/cucumber) | `npm install --save-dev @acereports/cucumber` |
+
+Then add the reporter to your config:
+
+```ts
+// playwright.config.ts
+reporter: [['list'], ['@acereports/playwright']],
+
+// jest.config.js
+reporters: ['default', '@acereports/jest'],
+setupFilesAfterEnv: ['@acereports/jest/setup'],
+
+// vitest.config.ts
+test: { reporters: ['default', '@acereports/vitest'], setupFiles: ['@acereports/vitest/setup'] },
+
+// cucumber.js
+plugin: ['@acereports/cucumber'],
+requireModule: ['@acereports/cucumber/support'],
+```
+
 ## Quick start
 
 1. Add the package for your framework to your test project.
-2. Run your tests: `dotnet test`, `mvn test` (or `gradle test`) or `pytest`.
+2. Run your tests: `dotnet test`, `mvn test` (or `gradle test`), `pytest`, or `npx playwright test` / `npx jest` / `npx vitest run` / `npx cucumber-js`.
 3. Open the report: `TestResults/AceReport_<timestamp>.html`. The path is also printed at the end of the run.
 
 ## Configure (optional)
@@ -123,6 +151,12 @@ def pytest_acereports_configure(options):
     ace.dark_theme()
 ```
 
+**TypeScript:** pass options to the reporter in your framework's config:
+
+```ts
+reporter: [['list'], ['@acereports/playwright', { suiteName: 'Checkout Regression', environment: 'UAT', theme: 'dark' }]],
+```
+
 ## Write to the report from a test
 
 ```csharp
@@ -150,10 +184,19 @@ ace.take_screenshot("After login")
 ace.use_screenshot_source(page)  # only for a page created inside the test
 ```
 
+```ts
+import { ace } from '@acereports/playwright';   // or @acereports/jest, /vitest, /cucumber
+
+ace.info('Submitting payment');
+ace.pass('Payment authorized');
+await ace.takeScreenshot('After login');
+ace.useScreenshotSource(page);   // only for a page Ace Reports can't find by itself
+```
+
 **Turning it off:** in .NET, add `<EnableAceReports>false</EnableAceReports>` to the `.csproj`
 (xUnit, NUnit, MSTest). In Java, run `mvn test -Dacereports.enabled=false`, or set
 `acereports.enabled=false` in `acereports.properties`. In Python, set `acereports = false` in `pytest.ini`, or run
-`pytest --no-acereports`.
+`pytest --no-acereports`. In TypeScript, pass `enabled: false` to the reporter, or set `ACEREPORTS_ENABLED=false`.
 
 ## What's captured automatically, and what needs one line
 
@@ -163,6 +206,7 @@ ace.use_screenshot_source(page)  # only for a page created inside the test
 | --- | --- | --- | --- |
 | .NET | Everything sent through `HttpClient` (observed through `System.Diagnostics`), so libraries built on it are covered too | | Traffic that doesn't use `HttpClient` |
 | Python | Everything sent through `requests` and `httpx` (sync and async) | | `aiohttp`, `urllib`, `urllib3` used directly |
+| TypeScript | Everything sent through Node's `http` / `https` and the global `fetch`: axios, got, supertest, node-fetch, ky, Playwright's `request` fixture and `page.request` | | HTTP/2 through the `http2` module, gRPC |
 | Java | Everything sent through REST Assured. Java's `HttpClient` when it's a field of the test class, a base class or a Cucumber step class, or one level down in one of your own objects | A Java `HttpClient` created inside the test or deeper inside a wrapper: `AceHttpClient.wrap(client)` | OkHttp, Apache HttpClient, Spring `RestTemplate` / `WebClient` |
 
 **Screenshots** (taken automatically when a test fails, before teardown closes the browser)
@@ -171,10 +215,12 @@ ace.use_screenshot_source(page)  # only for a page created inside the test
 | --- | --- | --- |
 | .NET | A Playwright, Selenium or Puppeteer page or driver the test uses | A page or driver created inside the test: `Ace.UseScreenshotSource(page)` |
 | Python | A fixture named like `page`, `driver` or `browser` (pytest-playwright's `page`), or such an attribute on the test class | A page created inside the test: `ace.use_screenshot_source(page)` |
+| TypeScript | Playwright Test's `page` and every browser context a test opens; a `page` / `driver` fixture (Vitest `test.extend`), World property (Cucumber.js) or jest-playwright global | A page created inside the test: `ace.useScreenshotSource(page)` |
 | Java | A Playwright `Page` or Selenium `WebDriver` in a field (instance, static or `ThreadLocal`) of the test class, a base class or a Cucumber step/hook class, or one level down in one of your own objects | A driver kept elsewhere (a `DriverManager`): `Ace.setScreenshotProvider(DriverManager::getDriver)` once |
 
-**Retries:** every attempt is kept, with its own logs, error, API calls and screenshots, in all three languages
-(xRetry / NUnit and MSTest `[Retry]`, pytest-rerunfailures, JUnit Pioneer / Surefire reruns / TestNG `IRetryAnalyzer`).
+**Retries:** every attempt is kept, with its own logs, error, API calls and screenshots, in every language
+(xRetry / NUnit and MSTest `[Retry]`, pytest-rerunfailures, JUnit Pioneer / Surefire reruns / TestNG `IRetryAnalyzer`,
+Playwright `retries` / `jest.retryTimes` / Vitest `retry` / `cucumber-js --retry`).
 
 ## ☕ Support Ace Reports
 
