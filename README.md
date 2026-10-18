@@ -155,6 +155,27 @@ ace.use_screenshot_source(page)  # only for a page created inside the test
 `acereports.enabled=false` in `acereports.properties`. In Python, set `acereports = false` in `pytest.ini`, or run
 `pytest --no-acereports`.
 
+## What's captured automatically, and what needs one line
+
+**API calls**
+
+| Language | Automatic, including calls made through your own wrappers and SDKs | Needs one line | Not captured |
+| --- | --- | --- | --- |
+| .NET | Everything sent through `HttpClient` (observed through `System.Diagnostics`), so libraries built on it are covered too | | Traffic that doesn't use `HttpClient` |
+| Python | Everything sent through `requests` and `httpx` (sync and async) | | `aiohttp`, `urllib`, `urllib3` used directly |
+| Java | Everything sent through REST Assured. Java's `HttpClient` when it's a field of the test class, a base class or a Cucumber step class, or one level down in one of your own objects | A Java `HttpClient` created inside the test or deeper inside a wrapper: `AceHttpClient.wrap(client)` | OkHttp, Apache HttpClient, Spring `RestTemplate` / `WebClient` |
+
+**Screenshots** (taken automatically when a test fails, before teardown closes the browser)
+
+| Language | Found automatically | Needs one line |
+| --- | --- | --- |
+| .NET | A Playwright, Selenium or Puppeteer page or driver the test uses | A page or driver created inside the test: `Ace.UseScreenshotSource(page)` |
+| Python | A fixture named like `page`, `driver` or `browser` (pytest-playwright's `page`), or such an attribute on the test class | A page created inside the test: `ace.use_screenshot_source(page)` |
+| Java | A Playwright `Page` or Selenium `WebDriver` in a field (instance, static or `ThreadLocal`) of the test class, a base class or a Cucumber step/hook class, or one level down in one of your own objects | A driver kept elsewhere (a `DriverManager`): `Ace.setScreenshotProvider(DriverManager::getDriver)` once |
+
+**Retries:** every attempt is kept, with its own logs, error, API calls and screenshots, in all three languages
+(xRetry / NUnit and MSTest `[Retry]`, pytest-rerunfailures, JUnit Pioneer / Surefire reruns / TestNG `IRetryAnalyzer`).
+
 ## ☕ Support Ace Reports
 
 Found Ace Reports useful? Support its continued development. Every coffee goes into new framework
