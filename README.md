@@ -225,7 +225,7 @@ Playwright `retries` / `jest.retryTimes` / Vitest `retry` / `cucumber-js --retry
 ## ☕ Support Ace Reports
 
 Found Ace Reports useful? Support its continued development. Every coffee goes into new framework
-support, fixes and features, and helps keep the core packages free.
+support, fixes and features, and helps to keep the core packages free.
 
 <a href="https://buymeacoffee.com/lambate05p"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy me a coffee"></a>
 
