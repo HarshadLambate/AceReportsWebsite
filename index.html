@@ -3,15 +3,139 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ace Reports: HTML test reports for .NET, Java, Python and TypeScript</title>
-<meta name="description" content="Install one package and every test run produces a single HTML report that automatically captures API calls, screenshots, logs, retries and flaky tests. For .NET (xUnit, NUnit, MSTest, Reqnroll), Java (JUnit 5, TestNG, Cucumber), Python (pytest, pytest-bdd) and TypeScript (Playwright, Jest, Vitest, Cucumber.js).">
-<meta property="og:title" content="Ace Reports: HTML test reports for .NET, Java, Python and TypeScript">
-<meta property="og:description" content="One package. One HTML file per run. API calls, screenshots, logs, retries and flaky tests, captured automatically. For xUnit, NUnit, MSTest, Reqnroll, JUnit 5, TestNG, Cucumber, pytest, pytest-bdd, Playwright, Jest, Vitest and Cucumber.js.">
+<title>Ace Reports: HTML Test Reports with Automatic API Capture, Screenshots and Flaky Test Detection</title>
+<meta name="description" content="Free HTML test reporter that automatically captures API requests and responses, failure screenshots, logs, retries and flaky tests. One self-contained HTML file per run for Playwright, Jest, Vitest, Cucumber.js, pytest, JUnit 5, TestNG, xUnit, NUnit, MSTest and Reqnroll.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Harshad Lambate">
+<link rel="canonical" href="https://harshadlambate.github.io/AceReportsWebsite/">
+<meta property="og:site_name" content="Ace Reports">
+<meta property="og:title" content="Ace Reports: HTML Test Reports with Automatic API Capture, Screenshots and Flaky Test Detection">
+<meta property="og:description" content="One package. One HTML file per run. API requests and responses, screenshots, logs, retries and flaky tests, captured automatically. For .NET, Java, Python and TypeScript test frameworks.">
 <meta property="og:image" content="https://harshadlambate.github.io/AceReportsWebsite/img/share-1200x630.png">
 <meta property="og:url" content="https://harshadlambate.github.io/AceReportsWebsite/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ace Reports: HTML Test Reports with Automatic API Capture, Screenshots and Flaky Test Detection">
+<meta name="twitter:description" content="Automatic API capture, failure screenshots, retries and flaky test detection in one HTML test report.">
 <meta name="twitter:image" content="https://harshadlambate.github.io/AceReportsWebsite/img/share-1200x630.png">
+<script type="application/ld+json">
+[
+ {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Ace Reports",
+  "url": "https://harshadlambate.github.io/AceReportsWebsite/",
+  "image": "https://harshadlambate.github.io/AceReportsWebsite/img/share-1200x630.png",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "description": "Free HTML test reporter that automatically captures API requests and responses, failure screenshots, logs, retries and flaky tests. One self-contained HTML file per run for Playwright, Jest, Vitest, Cucumber.js, pytest, JUnit 5, TestNG, xUnit, NUnit, MSTest and Reqnroll.",
+  "offers": {
+   "@type": "Offer",
+   "price": "0",
+   "priceCurrency": "USD"
+  },
+  "author": {
+   "@type": "Person",
+   "name": "Harshad Lambate"
+  },
+  "keywords": "HTML test report, test reporter, automatic API request response capture, API logging in tests, flaky test detection, test retries, failure screenshots, Playwright reporter, Jest reporter, Vitest reporter, Cucumber.js reporter, pytest HTML report, JUnit 5 report, TestNG report, xUnit report, NUnit report, MSTest report, Reqnroll report, Allure alternative, ExtentReports alternative"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "Is Ace Reports free?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Yes, for any use, including commercial use inside your company. It's free to use under the PolyForm Perimeter License 1.0.1. The one thing it doesn't allow is building a product that competes with Ace Reports."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Do I need a server or a separate tool to view the report?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "No. The report is one self-contained HTML file. Open it in any browser, send it to a teammate, or keep it as a build artifact."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Does it work in CI pipelines?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Yes. The report is written to TestResults like any other test output, so you can publish it as an artifact in GitHub Actions, Azure DevOps, GitLab or Jenkins. Set the environment name with the ACEREPORTS_ENVIRONMENT variable in any language, with dotnet test -p:AceReportsEnvironment=QA in .NET, with mvn test -Dacereports.environment=QA in Java, or with the reporter's environment option in TypeScript."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Will my passwords or tokens end up in the report?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Authorization, Cookie and Set-Cookie headers are always redacted. Request and response bodies are recorded as sent, so treat the report like a log file. You can turn API capture off with Ace.CaptureHttpTraffic(false) in .NET, Ace.captureHttpTraffic(false) in Java, ace.capture_http_traffic(False) in Python or captureHttp: false in TypeScript."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Can I turn it off for one project?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "In .NET, add <EnableAceReports>false</EnableAceReports> to that project's .csproj. In Java, set acereports.enabled=false in acereports.properties, or run mvn test -Dacereports.enabled=false. In Python, set acereports = false in pytest.ini, or run pytest --no-acereports for a single run. In TypeScript, pass enabled: false to the reporter, or set ACEREPORTS_ENABLED=false for a single run. The package stays installed and your tests run as normal."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "How do I capture API requests and responses in my test report automatically?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Install the Ace Reports package for your test framework. Every HTTP call your tests make is recorded with its method, URL, headers, request body, response body, status code and duration, and shown on the test that made it. That includes calls made through your own API client or wrapper: HttpClient in .NET, REST Assured in Java, requests and httpx in Python, and axios, fetch, supertest and Playwright's request in TypeScript. No logging code is needed."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "How does it find flaky tests?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "When a failed test is retried (for example Playwright retries, jest.retryTimes or Vitest retry), every attempt is kept with its own error, logs, API calls and screenshots. A test that fails and then passes on a retry is marked flaky in the report and can be filtered, so intermittent failures don't hide behind a green build."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Does it take a screenshot when a test fails?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Yes. With Playwright, Selenium or Puppeteer, a screenshot is taken automatically the moment a test fails, before the browser closes, and embedded in the HTML report next to the error and logs."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "How is it different from Allure or ExtentReports?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Ace Reports needs no report server, command-line tool or reporting code in your tests. Install one package, run your tests as usual, and you get one self-contained HTML file with API requests and responses, failure screenshots, retries and flaky tests already captured."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Which languages and test frameworks are supported?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": ".NET: xUnit v3, NUnit, MSTest and Reqnroll, from NuGet. Java: JUnit 5, TestNG and Cucumber, from Maven Central. Python: pytest and pytest-bdd, from PyPI. TypeScript and JavaScript: Playwright Test, Jest, Vitest and Cucumber.js, from npm. Every one produces the same report. More languages are being considered; tell us which one you need by opening an issue."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Can I use it in a product I sell, or under my own brand?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "That needs a commercial license: OEM, white-label and redistribution terms are available. Email lambate02@gmail.com with your company name and how you plan to use it."
+    }
+   }
+  ]
+ }
+]
+</script>
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -589,6 +713,22 @@ ace.<span class="m">pass</span>(<span class="s">'Payment authorized'</span>);
       <details>
         <summary>Can I turn it off for one project?</summary>
         <p>In .NET, add <code>&lt;EnableAceReports&gt;false&lt;/EnableAceReports&gt;</code> to that project's <code>.csproj</code>. In Java, set <code>acereports.enabled=false</code> in <code>acereports.properties</code>, or run <code>mvn test -Dacereports.enabled=false</code>. In Python, set <code>acereports = false</code> in <code>pytest.ini</code>, or run <code>pytest --no-acereports</code> for a single run. In TypeScript, pass <code>enabled: false</code> to the reporter, or set <code>ACEREPORTS_ENABLED=false</code> for a single run. The package stays installed and your tests run as normal.</p>
+      </details>
+      <details>
+        <summary>How do I capture API requests and responses in my test report automatically?</summary>
+        <p>Install the Ace Reports package for your test framework. Every HTTP call your tests make is recorded with its method, URL, headers, request body, response body, status code and duration, and shown on the test that made it. That includes calls made through your own API client or wrapper: <code>HttpClient</code> in .NET, REST Assured in Java, <code>requests</code> and <code>httpx</code> in Python, and axios, <code>fetch</code>, supertest and Playwright's <code>request</code> in TypeScript. No logging code is needed.</p>
+      </details>
+      <details>
+        <summary>How does it find flaky tests?</summary>
+        <p>When a failed test is retried (for example Playwright <code>retries</code>, <code>jest.retryTimes</code> or Vitest <code>retry</code>), every attempt is kept with its own error, logs, API calls and screenshots. A test that fails and then passes on a retry is marked <strong>flaky</strong> in the report and can be filtered, so intermittent failures don't hide behind a green build.</p>
+      </details>
+      <details>
+        <summary>Does it take a screenshot when a test fails?</summary>
+        <p>Yes. With Playwright, Selenium or Puppeteer, a screenshot is taken automatically the moment a test fails, before the browser closes, and embedded in the HTML report next to the error and logs.</p>
+      </details>
+      <details>
+        <summary>How is it different from Allure or ExtentReports?</summary>
+        <p>Ace Reports needs no report server, command-line tool or reporting code in your tests. Install one package, run your tests as usual, and you get one self-contained HTML file with API requests and responses, failure screenshots, retries and flaky tests already captured.</p>
       </details>
       <details>
         <summary>Which languages and test frameworks are supported?</summary>
